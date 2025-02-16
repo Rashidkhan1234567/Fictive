@@ -1,0 +1,223 @@
+/* Home Page Styling */
+
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9fafb;
+}
+
+.dark .home-container {
+  background-color: #111827; /* Dark Mode */
+}
+
+.home-main {
+  flex: 1;
+}
+
+/* Hero Section */
+.hero-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  position: relative;
+  display: inline-block;
+  text-transform: capitalize;
+  background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.hero-section h1::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.hero-section h1:hover::after {
+  width: 150px;
+}
+
+.hero-section p {
+  font-size: 1.25rem;
+  color: #4b5563;
+  max-width: 800px;
+  margin: 2rem auto 0;
+  line-height: 1.8;
+  font-weight: 400;
+  position: relative;
+  padding: 1rem 2rem;
+  background: linear-gradient(
+    to right,
+    rgba(99, 102, 241, 0.05),
+    transparent,
+    rgba(139, 92, 246, 0.05)
+  );
+  border-radius: 12px;
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+/* Add animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark mode adjustments */
+.dark .hero-section {
+  background-color: #111827;
+}
+
+.dark .hero-section h1 {
+  background: linear-gradient(135deg, #ffffff 0%, #d1d5db 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .hero-section p {
+  color: #d1d5db;
+  background: linear-gradient(
+    to right,
+    rgba(99, 102, 241, 0.1),
+    transparent,
+    rgba(139, 92, 246, 0.1)
+  );
+}
+
+/* Pure Component Styling */
+.pure-component {
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: background-color 0.3s ease;
+}
+
+.dark .pure-component {
+  background-color: #1f2937;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-section p {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.dark .hero-title {
+  color: #ffffff; /* White Text in Dark Mode */
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.dark .hero-description {
+  color: #d1d5db; /* Gray-300 */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff; /* Light mode background */
+  color: #1a1a1a; /* Light mode text color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark .app-container {
+  background-color: #111827; /* Dark mode background */
+  color: #ffffff; /* Dark mode text color */
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Dark theme modal styles */
+[data-theme="dark"] .modal-content {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .modal-header {
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #404040;
+}
+
+[data-theme="dark"] .modal-footer {
+  background-color: #2d2d2d;
+  border-top: 1px solid #404040;
+}
+
+[data-theme="dark"] .modal-title {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+[data-theme="dark"] .modal-body {
+  color: #e0e0e0;
+}

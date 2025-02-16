@@ -1,0 +1,36 @@
+:root {
+  --background-light: #ffffff;
+  --text-light: #1a1a1a;
+  --background-dark: #1a1a1a;
+  --text-dark: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
+}
+
+body.light {
+  background-color: var(--background-light);
+  color: var(--text-light);
+}
+
+.dark section,
+.dark div,
+.dark footer {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
+}
+
+.light section,
+.light div,
+.light footer {
+  background-color: var(--background-light);
+  color: var(--text-light);
+}

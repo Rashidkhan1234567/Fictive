@@ -1,0 +1,144 @@
+.reviews-section {
+    padding: 4rem 2rem;
+    background-color: #f8fafc; /* Light mode background */
+    transition: all 0.3s ease;
+  }
+
+  .dark .reviews-section {
+    background-color: #1a202c; /* Dark mode background */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.tag {
+  background-color: #e2e8f0; /* Light mode tag background */
+  color: #475569; /* Light mode tag text */
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.dark .tag {
+  background-color: #2d3748; /* Dark mode tag background */
+  color: #e2e8f0; /* Dark mode tag text */
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #1a202c; /* Light mode title */
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+.dark .title {
+  color: #f7fafc; /* Dark mode title */
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.review-card {
+  background-color: #ffffff; /* Light mode card background */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.dark .review-card {
+  background-color: #2d3748; /* Dark mode card background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.quote-icon {
+  color: #6366f1; /* Light mode icon */
+  margin-bottom: 1rem;
+}
+
+.dark .quote-icon {
+  color: #818cf8; /* Dark mode icon */
+}
+
+.star-icon {
+  color: #eab308; /* Star color - same for both modes */
+  width: 20px;
+  height: 20px;
+}
+
+.review-text {
+  color: #4a5568; /* Light mode text */
+  line-height: 1.7;
+  margin: 1rem 0;
+}
+
+.dark .review-text {
+  color: #e2e8f0; /* Dark mode text */
+}
+
+.reviewer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.reviewer-name {
+  color: #2d3748; /* Light mode name */
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.dark .reviewer-name {
+  color: #f7fafc; /* Dark mode name */
+}
+
+.reviewer-details {
+  color: #64748b; /* Light mode details */
+  font-size: 0.875rem;
+}
+
+.dark .reviewer-details {
+  color: #94a3b8; /* Dark mode details */
+}
+
+.dot {
+  margin: 0 0.5rem;
+  color: #cbd5e1; /* Light mode dot */
+}
+
+.dark .dot {
+  color: #475569; /* Dark mode dot */
+}
+
+@media (max-width: 768px) {
+  .reviews-section {
+    padding: 3rem 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}

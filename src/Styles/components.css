@@ -1,0 +1,171 @@
+:root {
+  --select-bg: #ffffff;
+  --select-border: #e2e8f0;
+  --select-text: #1a202c;
+  --select-hover: #f7fafc;
+  --button-primary: #3182ce;
+  --button-text: #ffffff;
+}
+
+[data-theme="dark"] {
+  --select-bg: #2d3748;
+  --select-border: #4a5568;
+  --select-text: #e2e8f0;
+  --select-hover: #4a5568;
+  --button-primary: #4299e1;
+  --button-text: #ffffff;
+}
+
+/* Select Component Styles */
+.select-trigger {
+  display: flex;
+  width: 200px;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border: 1px solid var(--select-border);
+  border-radius: 8px;
+  background-color: var(--select-bg);
+  color: var(--select-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.select-trigger:hover {
+  border-color: var(--button-primary);
+}
+
+.select-trigger:focus {
+  outline: none;
+  border-color: var(--button-primary);
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+}
+
+.select-content {
+  position: relative;
+  z-index: 50;
+  min-width: 200px;
+  background: var(--select-bg);
+  border: 1px solid var(--select-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-top: 8px;
+  animation: selectContentShow 0.2s ease;
+}
+
+.select-viewport {
+  padding: 6px;
+}
+
+.select-item {
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  font-size: 14px;
+  color: var(--select-text);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.select-item:hover {
+  background-color: var(--select-hover);
+}
+
+.select-item[data-highlighted] {
+  background-color: var(--button-primary);
+  color: var(--button-text);
+}
+
+.select-item-indicator {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  height: 16px;
+  width: 16px;
+  align-items: center;
+  justify-content: center;
+  color: var(--button-primary);
+}
+
+.select-icon {
+  color: var(--select-text);
+  opacity: 0.5;
+  transition: transform 0.2s ease;
+}
+
+[data-state="open"] .select-icon {
+  transform: rotate(180deg);
+}
+
+/* Button Component Styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.button-default {
+  background-color: var(--button-primary);
+  color: var(--button-text);
+}
+
+.button-default:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.button-outline {
+  background-color: transparent;
+  border: 1px solid var(--select-border);
+  color: var(--select-text);
+}
+
+.button-outline:hover {
+  border-color: var(--button-primary);
+  color: var(--button-primary);
+}
+
+.button-secondary {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.button-lg {
+  padding: 12px 24px;
+}
+
+@keyframes selectContentShow {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
