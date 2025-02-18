@@ -5,6 +5,11 @@ import { CartProvider } from "./context/CartContext";
 import { useEffect } from "react";
 import ServicePage from "./pages/Services.jsx";
 import ProductsPage from "./pages/Products.jsx";
+import { ClerkProvider } from "@clerk/clerk-react";
+import { Toaster } from "sonner";
+import OrdersPage from "./pages/Order.jsx";
+
+const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 function App() {
   useEffect(() => {
@@ -16,14 +21,22 @@ function App() {
     <div className="app">
       <ErrorBoundary>
         <CartProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<ServicePage />} />
-              <Route path="/products" element={<ProductsPage />} />
-
-            </Routes>
-          </Router>
+          <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
+            <Toaster
+              position="top-center"
+              expand={false}
+              richColors
+              closeButton
+            />
+            <Router>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/services" element={<ServicePage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/order" element={<OrdersPage />} />
+              </Routes>
+            </Router>
+          </ClerkProvider>
         </CartProvider>
       </ErrorBoundary>
     </div>

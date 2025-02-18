@@ -1,0 +1,23 @@
+:root {
+  --background: 0, 0%, 100%; /* white */
+  --foreground: 0, 0%, 0%; /* black */
+  --primary: 259, 94%, 60%; /* #7c3aed */
+  --primary-foreground: 0, 0%, 100%; /* white */
+  --secondary: 259, 94%, 50%; /* #6d28d9 */
+  --secondary-foreground: 0, 0%, 100%; /* white */
+  --muted-foreground: 0, 0%, 40%; /* #666666 */
+  --border: 0, 0%, 80%; /* #cccccc */
+  --secondary-background: 0, 0%, 95%; /* #f3f3f3 */
+}
+
+[data-theme="dark"] {
+  --background: 220, 13%, 18%; /* #1f2937 */
+  --foreground: 0, 0%, 100%; /* white */
+  --primary: 259, 94%, 60%; /* #7c3aed */
+  --primary-foreground: 0, 0%, 100%; /* white */
+  --secondary: 259, 94%, 50%; /* #6d28d9 */
+  --secondary-foreground: 0, 0%, 100%; /* white */
+  --muted-foreground: 0, 0%, 80%; /* #e5e7eb */
+  --border: 0, 0%, 40%; /* #666666 */
+  --secondary-background: 220, 13%, 25%; /* #374151 */
+}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import "../../styles/components.css";
+import "../../Styles/components.css";
 
 const Button = React.forwardRef(
   ({ className, variant = "default", size = "default", ...props }, ref) => {

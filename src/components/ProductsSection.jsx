@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { motion } from "framer-motion";
+import { collection, query,  getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
-import { ShoppingCart, ExternalLink, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import ProductCard from "./ProductCard";
 import "../Styles/components/ProductsSection.css";
@@ -28,16 +28,23 @@ const ProductsSection = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    const q = query(collection(db, "cards"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const productsData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setProducts(productsData);
-      setLoading(false);
-    });
-    return () => unsubscribe();
+    const fetchProducts = async () => {
+      try {
+        const q = query(collection(db, "cards"));
+        const snapshot = await getDocs(q);
+        const productsData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProducts(productsData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   // Show only first 12 products instead of 8

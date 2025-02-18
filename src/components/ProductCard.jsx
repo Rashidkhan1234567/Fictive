@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Heart, ExternalLink, XCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useUser, useAuth } from "@clerk/clerk-react";
-import { setDoc, doc } from "firebase/firestore";
+import { useAuth, useUser } from "@clerk/clerk-react"; // Add useUser hook
+import { setDoc, doc, writeBatch } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import "../Styles/components/ProductCard.css";
 import ErrorModal from "./ErrorModal";
 import { toast } from "sonner"; // or your preferred toast library
-import SuccessModal from "./SuccessModal";
 
 const ProductCard = ({ product }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,14 +16,36 @@ const ProductCard = ({ product }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isOrdering, setIsOrdering] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const { user, isSignedIn } = useAuth();
+  const [isProcessingOrder, setIsProcessingOrder] = useState(false);
+  const { userId, isSignedIn } = useAuth();
+  const [theme, setTheme] = useState("light"); // Fixed: Initialize with proper useState
+  const { user } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Initial theme setup
+    let theme = localStorage.getItem("theme") || "light";
+    setTheme(theme);
+
+    // Create MutationObserver to watch for theme changes
+    const observer = new MutationObserver(() => {
+      const newTheme = localStorage.getItem("theme") || "light";
+      setTheme(newTheme);
+    });
+
+    // Watch for changes in localStorage
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -52,51 +73,54 @@ const ProductCard = ({ product }) => {
   };
 
   const handlePlaceOrder = async () => {
-    try {
-      if (!isSignedIn) {
-        setShowErrorModal(true);
-        return;
-      }
+    if (!isSignedIn || !userId || !user) {
+      toast.error("Please sign in to place an order");
+      return;
+    }
 
-      setIsOrdering(true);
-      const orderId = `${user.id}_${product.id}_${Date.now()}`;
+    try {
+      setIsProcessingOrder(true);
+
+      // Generate unique order ID
+      const timestamp = Date.now();
+      const randomString = Math.random().toString(36).substring(7);
+      const orderId = `order_${timestamp}_${randomString}`;
 
       const orderData = {
         orderId,
-        userId: user.id,
-        userEmail: user.emailAddresses[0]?.emailAddress || "",
-        userName: user.fullName || "Anonymous",
+        userId: userId,
+        userEmail: user.primaryEmailAddress?.emailAddress || "",
+        userName: user.fullName || user.username || "Anonymous",
         pfp: user.imageUrl || null,
-        productId: product.id,
+        productId: product.id || `prod_${timestamp}`,
         productName: product.title,
-        price: product.price || 0,
+        price: product.price,
         currency: product.currency || "AED",
         images: product.images || [],
         orderedAt: new Date().toISOString(),
         status: "pending",
-        productDescription: product.description || "",
+        productDescription: product.description,
       };
 
-      const cleanOrderData = Object.fromEntries(
-        Object.entries(orderData).filter(([_, v]) => v !== undefined)
-      );
+      const orderRef = doc(db, "orders", orderId);
+      const userOrderRef = doc(db, `users/${userId}/orders`, orderId);
 
-      await Promise.all([
-        setDoc(doc(db, "orders", orderId), cleanOrderData),
-        setDoc(doc(db, "users", user.id, "orders", orderId), cleanOrderData),
-      ]);
+      const batch = writeBatch(db);
+      batch.set(orderRef, orderData);
+      batch.set(userOrderRef, orderData);
 
-      setShowSuccessModal(true);
+      await batch.commit();
       setShowModal(false);
 
-      setTimeout(() => {
-        setShowSuccessModal(false);
-      }, 3000);
+      toast.success(`Order placed successfully! Order ID: ${orderId}`, {
+        duration: 5000,
+        position: "top-center",
+      });
     } catch (error) {
       console.error("Error placing order:", error);
-      toast.error("Failed to place order. Please try again.");
+      toast.error("Failed to place order. Please try again later.");
     } finally {
-      setIsOrdering(false);
+      setIsProcessingOrder(false);
     }
   };
 
@@ -112,29 +136,28 @@ const ProductCard = ({ product }) => {
   };
 
   const modalVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, backgroundColor: "rgba(0, 0, 0, 0)" },
     visible: {
       opacity: 1,
-      transition: { duration: 0.2 },
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      transition: { duration: 0.3, ease: "easeInOut" },
     },
     exit: {
       opacity: 0,
-      transition: { duration: 0.15 },
+      backgroundColor: "rgba(0, 0, 0, 0)",
+      transition: { duration: 0.3, ease: "easeInOut" },
     },
   };
 
   const modalContentVariants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { y: 50, opacity: 0, scale: 0.9 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.2, delay: 0.1 },
+      scale: 1,
+      transition: { type: "spring", stiffness: 100, damping: 20 },
     },
-    exit: {
-      y: 20,
-      opacity: 0,
-      transition: { duration: 0.15 },
-    },
+    exit: { y: 50, opacity: 0, scale: 0.9, transition: { duration: 0.3 } },
   };
 
   return (
@@ -227,7 +250,7 @@ const ProductCard = ({ product }) => {
             onClick={() => setShowModal(false)}
           >
             <motion.div
-              className="preview-modal"
+              className="productModal"
               variants={modalContentVariants}
               onClick={(e) => e.stopPropagation()}
             >
@@ -239,7 +262,11 @@ const ProductCard = ({ product }) => {
                 <XCircle size={20} />
               </button>
 
-              <div className="modal-content">
+              <div
+                className={`modal-content ${
+                  theme == "dark" ? "dark-content" : ""
+                }`}
+              >
                 <div className="modal-image-section">
                   <motion.img
                     src={product.images[currentImageIndex]}
@@ -284,16 +311,21 @@ const ProductCard = ({ product }) => {
 
                   <div className="modal-actions">
                     <button
-                      className="order-btn"
+                      className={`order-btn ${
+                        isProcessingOrder ? "processing" : ""
+                      }`}
                       onClick={handlePlaceOrder}
-                      disabled={isOrdering}
+                      disabled={isProcessingOrder}
                     >
-                      {isOrdering ? (
-                        <div className="loading-spinner" />
+                      {isProcessingOrder ? (
+                        <>
+                          <div className="loading-spinner"></div>
+                          <span>Processing...</span>
+                        </>
                       ) : (
                         <>
                           <ShoppingCart size={18} />
-                          Place Order
+                          <span>Place Order</span>
                         </>
                       )}
                     </button>
@@ -304,11 +336,6 @@ const ProductCard = ({ product }) => {
           </motion.div>
         )}
       </AnimatePresence>
-      <SuccessModal
-        isOpen={showSuccessModal}
-        onClose={() => setShowSuccessModal(false)}
-        message="Order placed successfully!"
-      />
     </>
   );
 };

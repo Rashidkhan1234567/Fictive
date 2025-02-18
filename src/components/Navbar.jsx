@@ -9,7 +9,7 @@ import {
 import { ShoppingCart, Moon, Sun } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
-import "../styles/components/Navbar.css";
+import "../Styles/components/Navbar.css";
 
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);

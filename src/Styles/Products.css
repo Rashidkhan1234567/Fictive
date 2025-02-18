@@ -8,6 +8,7 @@
 .products-container {
   padding: 2rem;
   transform-style: preserve-3d;
+  margin-top: 70px;
 }
 
 .products-hero {
