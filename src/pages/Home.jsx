@@ -12,7 +12,7 @@ import { useUser } from "@clerk/clerk-react";
 
 const sliderImages = [
   {
-    url: "https://res.cloudinary.com/dyuinsza5/image/upload/v1739090242/ekz45715kixz5kvi6otl.jpg",
+    url: "https://res.cloudinary.com/dyuinsza5/image/upload/v1739095990/cex3mwx0tpcc83e2x9ai.webp",
     title: "Professional Business Cards",
     description: "High-quality business cards that make a lasting impression",
   },

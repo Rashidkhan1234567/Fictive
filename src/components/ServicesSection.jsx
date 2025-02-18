@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import PropTypes from "prop-types";
 import "../Styles/Services.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const services = [
   {
@@ -120,9 +121,14 @@ const services = [
 ];
 
 const ServicesSection = ({ limit = 9 }) => {
+  const navigate = useNavigate();
   const displayedServices = services.slice(0, limit);
   const hasMoreServices = services.length > limit;
   const remainingCount = services.length - limit;
+
+  const handleViewAll = () => {
+    navigate("/services");
+  };
 
   return (
     <section className="services-section">
@@ -167,12 +173,14 @@ const ServicesSection = ({ limit = 9 }) => {
                 <div className="content">
                   <h3 className="service-title">{service.name}</h3>
                   <p className="service-description">{service.description}</p>
-                  <motion.button
-                    whileHover={{ x: 5 }}
-                    className="learn-more-btn"
-                  >
-                    Learn More →
-                  </motion.button>
+                  <Link to="/services">
+                    <motion.button
+                      whileHover={{ x: 5 }}
+                      className="learn-more-btn"
+                    >
+                      Learn More →
+                    </motion.button>
+                  </Link>
                 </div>
               </motion.div>
             </motion.div>
@@ -186,8 +194,8 @@ const ServicesSection = ({ limit = 9 }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <motion.a
-              href="/services"
+            <motion.button
+              onClick={handleViewAll}
               className="view-all-services-btn"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -207,7 +215,7 @@ const ServicesSection = ({ limit = 9 }) => {
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
-            </motion.a>
+            </motion.button>
             {remainingCount > 0 && (
               <p className="remaining-services-count">
                 Discover {remainingCount} more services

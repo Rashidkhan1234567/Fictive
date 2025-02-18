@@ -190,6 +190,10 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+  .service-card{
+    margin-right: 40px;
+    width: 80vw;
+  }
   .section-title {
     font-size: 2.5rem;
   }

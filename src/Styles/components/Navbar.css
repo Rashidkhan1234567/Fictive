@@ -174,7 +174,8 @@
   }
 
   .logo-text {
-    font-size: 1.25rem; /* Smaller logo text */
+    font-size: 2rem !important;
+    text-decoration: none !important ; 
   }
 
   /* Mobile Menu */

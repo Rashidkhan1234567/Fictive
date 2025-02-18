@@ -258,6 +258,9 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+  .products-section{
+    margin : auto ;
+  }
   .section-header {
     margin-bottom: 3rem;
     padding: 1.5rem 0;
@@ -397,8 +400,9 @@
   }
 
   .product-card-wrapper {
-    width: 100%; /* Full width on mobile */
-    max-width: 350px;
+    width: 100%; 
+    max-width: 450px;
+    margin-right: 75px;
   }
 
   .product-card {

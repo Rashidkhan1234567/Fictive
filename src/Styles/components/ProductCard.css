@@ -74,6 +74,69 @@
   }
 }
 
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .product-card {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+  }
+
+  .product-card-wrapper {
+    padding: 0;
+    width: 100%;
+  }
+
+  .productModal {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border-radius: 12px;
+  }
+
+  .modal-content {
+    width: 100%;
+    padding: 1rem;
+    overflow-x: hidden;
+  }
+
+  .modal-image-section {
+    width: 100%;
+    margin: 0;
+  }
+
+  .main-preview-image {
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+  }
+
+  .modal-info {
+    width: 100%;
+    padding: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    padding: 0.5rem;
+  }
+
+  .productModal {
+    border-radius: 8px;
+  }
+
+  .modal-content {
+    padding: 0.75rem;
+  }
+}
+
 .dark .product-card {
   background: rgba(31, 41, 55, 0.95);
   color: #ffffff; /* White text for dark theme */
@@ -260,13 +323,13 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(0.5rem, 2vw, 2rem);
+  padding: 1rem;
 }
 
 .preview-modal {
@@ -283,14 +346,30 @@
 }
 
 .productModal {
-  background: #ffffff;
-  width: min(95%, 1200px);
+  background: white;
+  border-radius: 20px;
+  width: 95%;
+  max-width: 900px;
   max-height: 90vh;
-  margin: auto;
-  border-radius: clamp(12px, 2vw, 20px);
+  overflow-y: auto;
   position: relative;
-  overflow: hidden;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.3s ease-out;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.productModal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.productModal::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.dark .productModal::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 @keyframes modalSlideIn {
@@ -300,6 +379,17 @@
   }
   to {
     transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -440,6 +530,7 @@
 }
 
 @media (max-width: 768px) {
+ 
   .preview-modal {
     width: 95%;
     max-height: min(95vh, fit-content);
@@ -484,10 +575,11 @@
   }
 
   .productModal {
-    width: 98%;
-    margin: 0.5rem;
-    height: auto;
-    max-height: 95vh;
+    width: 100%;
+    max-height: 85vh;
+    border-radius: 20px 20px 0 0;
+    margin-bottom: 0;
+    transform-origin: bottom;
   }
 
   .modal-content {
@@ -495,21 +587,57 @@
     gap: 1rem;
   }
 
-  .modal-info {
+  .modal-image-section {
+    margin: -1rem -1rem 0;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+  }
+
+  .main-preview-image {
+    border-radius: 20px 20px 0 0;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .image-thumbnails {
     padding: 0.5rem;
-    max-height: 45vh;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+
+  .close-modal {
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0.5rem;
+  }
+
+  .modal-info {
+    padding: 0 1rem;
   }
 
   .modal-actions {
-    flex-direction: column;
-    gap: 0.75rem;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 1rem;
+    margin: 0 -1rem -1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 
-  .order-btn,
-  .details-btn {
-    width: 100%;
-    padding: clamp(0.5rem, 2vw, 0.8rem);
-    font-size: clamp(0.875rem, 2vw, 1rem);
+  .dark .modal-actions {
+    background: #1f2937;
+    border-top-color: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -788,4 +916,35 @@
 .productModal,
 .modal-content {
   transition: all 0.3s ease-in-out;
+}
+
+/* Tablet Specific Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .productModal {
+    width: 90%;
+    max-height: 80vh;
+  }
+
+  .modal-content {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .modal-image-section {
+    flex: 1;
+  }
+
+  .modal-info {
+    flex: 1;
+  }
+}
+
+/* Dark Mode Support */
+.dark .productModal {
+  background: #1f2937;
+  color: #f3f4f6;
+}
+
+.dark .modal-backdrop {
+  background: rgba(0, 0, 0, 0.8);
 }
