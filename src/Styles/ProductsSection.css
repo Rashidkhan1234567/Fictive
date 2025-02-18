@@ -1,0 +1,84 @@
+/* ...existing styles... */
+
+.product-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* ...existing styles... */
+}
+
+.dark .product-card {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.product-title {
+  color: #1f2937;
+}
+
+.dark .product-title {
+  color: #f1f5f9;
+}
+
+.product-price {
+  color: #7c3aed;
+}
+
+.dark .product-price {
+  color: #a78bfa;
+}
+
+.product-description {
+  color: #6b7280;
+}
+
+.dark .product-description {
+  color: #94a3b8;
+}
+
+.product-button {
+  background: #7c3aed;
+  color: white;
+}
+
+.dark .product-button {
+  background: #6d28d9;
+}
+
+.product-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.dark .product-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.badge {
+  background: rgba(124, 58, 237, 0.1);
+  color: #7c3aed;
+}
+
+.dark .badge {
+  background: rgba(167, 139, 250, 0.2);
+  color: #a78bfa;
+}
+
+/* Card hover effects */
+.product-card::after {
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.05) 50%,
+    transparent 100%
+  );
+}
+
+.dark .product-card::after {
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+}

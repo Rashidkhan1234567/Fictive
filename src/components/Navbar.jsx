@@ -6,13 +6,14 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
-import { ShoppingCart, Moon, Sun } from "lucide-react";
+import { ShoppingCart, Moon, Sun, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import "../Styles/components/Navbar.css";
 
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartCount } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,6 +31,10 @@ const Navbar = () => {
     document.body.classList.toggle("light", theme === "light");
   }, []);
 
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
     document.body.classList.toggle("dark");
@@ -37,29 +42,28 @@ const Navbar = () => {
     localStorage.setItem("theme", isDarkMode ? "light" : "dark");
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* Left - Logo */}
-        <motion.div
-          className="nav-logo"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Link to="/">
-            <span className="logo-text">𝓕𝓲𝓬𝓽𝓲𝓿𝓮</span>
-          </Link>
-        </motion.div>
+        {/* Logo */}
+        <Link to="/" className="nav-logo">
+          <span className="logo-text">𝓕𝓲𝓬𝓽𝓲𝓿𝓮</span>
+        </Link>
 
-        {/* Center - Navigation Links */}
-        <div className="nav-links">
-          {navLinks.map((link, index) => (
-            <motion.div
-              key={link.path}
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-            >
+        {/* Desktop Navigation */}
+        <div className="desktop-nav">
+          <div className="nav-links">
+            {navLinks.map((link) => (
               <Link
+                key={link.path}
                 to={link.path}
                 className={`nav-link ${
                   location.pathname === link.path ? "active" : ""
@@ -67,54 +71,83 @@ const Navbar = () => {
               >
                 {link.label}
               </Link>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* Right - Actions */}
-        <div className="nav-actions">
-          <motion.button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            whileHover={{ rotate: 180 }}
-            transition={{ duration: 0.3 }}
-          >
+        {/* Desktop Actions & Mobile Nav Icons Combined */}
+        <div className="nav-actions-group">
+          <button className="theme-toggle" onClick={toggleTheme}>
             {isDarkMode ? <Moon size={20} /> : <Sun size={20} />}
-          </motion.button>
+          </button>
 
           <SignedIn>
-            <motion.div className="cart-wrapper" whileHover={{ scale: 1.1 }}>
-              <Link to="/order" className="cart-button">
+            <Link to="/order" className="cart-link">
+              <div className="cart-button">
                 <ShoppingCart size={20} />
                 {cartCount > 0 && (
-                  <motion.span
-                    className="cart-counter"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                  >
-                    {cartCount}
-                  </motion.span>
+                  <span className="cart-counter">{cartCount}</span>
                 )}
-              </Link>
-            </motion.div>
+              </div>
+            </Link>
             <UserButton
-              appearance={{
-                elements: { avatarBox: "avatar-box" },
-              }}
+              appearance={{ elements: { avatarBox: "avatar-box" } }}
             />
           </SignedIn>
 
           <SignedOut>
             <SignInButton>
-              <motion.button
-                className="login-button"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Login
-              </motion.button>
+              <button className="login-button">Login</button>
             </SignInButton>
           </SignedOut>
+
+          {/* Mobile Menu Button - Only shows on mobile */}
+          <button className="mobile-menu-btn" onClick={toggleMenu}>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`mobile-menu ${isMenuOpen ? "show" : ""}`}>
+          {/* Mobile Links */}
+          <div className="mobile-links">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`nav-link ${
+                  location.pathname === link.path ? "active" : ""
+                }`}
+                onClick={closeMenu}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Actions */}
+          <div className="mobile-actions">
+            <button className="theme-toggle" onClick={toggleTheme}>
+              {isDarkMode ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
+
+            <SignedIn>
+              <Link to="/order" className="cart-link" onClick={closeMenu}>
+                <div className="cart-button">
+                  <ShoppingCart size={20} />
+                  {cartCount > 0 && (
+                    <span className="cart-counter">{cartCount}</span>
+                  )}
+                </div>
+              </Link>
+            </SignedIn>
+
+            <SignedOut>
+              <SignInButton>
+                <button className="login-button">Login</button>
+              </SignInButton>
+            </SignedOut>
+          </div>
         </div>
       </div>
     </nav>

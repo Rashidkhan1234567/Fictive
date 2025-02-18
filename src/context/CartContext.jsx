@@ -9,6 +9,8 @@ const CartContext = createContext({
 
 export function CartProvider({ children }) {
   const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
+  const [orderCount, setOrderCount] = useState(0);
 
   useEffect(() => {
     try {
@@ -31,7 +33,14 @@ export function CartProvider({ children }) {
   }, []);
 
   return (
-    <CartContext.Provider value={{ cartCount, setCartCount }}>
+    <CartContext.Provider
+      value={{
+        cartCount,
+        setCartCount,
+        cartItems,
+        orderCount,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

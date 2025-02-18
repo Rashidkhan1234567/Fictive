@@ -129,6 +129,10 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .app-container{
+    overflow: hidden;
+
+  }
   .hero-section {
     padding: 3rem 1.5rem;
   }

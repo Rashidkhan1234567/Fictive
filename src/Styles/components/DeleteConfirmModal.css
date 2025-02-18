@@ -1,0 +1,324 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-container {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.dark .modal-container {
+  background: #1e293b;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  padding: 1.5rem;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.warning-icon {
+  color: #f59e0b;
+  width: 48px;
+  height: 48px;
+  animation: pulse 2s infinite;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.dark .modal-header h2 {
+  color: #f1f5f9;
+}
+
+.modal-body {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modal-body p {
+  color: #4b5563;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.dark .modal-body p {
+  color: #94a3b8;
+}
+
+.product-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dark .product-name {
+  color: #e2e8f0;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.cancel-btn,
+.delete-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.cancel-btn {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.dark .cancel-btn {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.cancel-btn:hover {
+  background: #d1d5db;
+}
+
+.dark .cancel-btn:hover {
+  background: #475569;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .modal-container {
+    margin: 1rem;
+  }
+
+  .modal-content {
+    padding: 1rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .modal-body p {
+    font-size: 0.875rem;
+  }
+
+  .cancel-btn,
+  .delete-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+.delete-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.delete-modal {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .delete-modal {
+  background: #1e293b;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3),
+    0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.delete-modal-content {
+  padding: 2rem;
+}
+
+.delete-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.warning-icon {
+  width: 48px;
+  height: 48px;
+  color: #eab308;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+.delete-modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.dark .delete-modal-header h2 {
+  color: #f1f5f9;
+}
+
+.delete-modal-body {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.delete-modal-body p {
+  color: #4b5563;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.dark .delete-modal-body p {
+  color: #94a3b8;
+}
+
+.highlighted-text {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dark .highlighted-text {
+  color: #f1f5f9;
+}
+
+.delete-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.cancel-button,
+.delete-button {
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.dark .cancel-button {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.cancel-button:hover {
+  background: #d1d5db;
+}
+
+.dark .cancel-button:hover {
+  background: #475569;
+}
+
+.delete-button {
+  background: #ef4444;
+  color: white;
+}
+
+.delete-button:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
+}
+
+@media (max-width: 640px) {
+  .delete-modal {
+    margin: 1rem;
+  }
+
+  .delete-modal-content {
+    padding: 1.5rem;
+  }
+
+  .delete-modal-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .delete-modal-body p {
+    font-size: 0.875rem;
+  }
+
+  .cancel-button,
+  .delete-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}

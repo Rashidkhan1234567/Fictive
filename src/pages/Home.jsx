@@ -8,6 +8,7 @@ import ServicesSection from "../components/ServicesSection";
 import ReviewsSection from "../components/ReviewsSection";
 import { CONFIG } from "../utils/constants";
 import "../Styles/Home.css"; // Import the main CSS file
+import { useUser } from "@clerk/clerk-react";
 
 const sliderImages = [
   {
@@ -28,16 +29,23 @@ const sliderImages = [
 ];
 
 const Home = () => {
+  const { isLoaded, isSignedIn, user } = useUser();
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
 
   useEffect(() => {
-    const userEmail = localStorage.getItem("userEmail");
-    if (userEmail === CONFIG.ADMIN_EMAIL) {
-      setIsAdmin(true);
+    if (
+      isLoaded &&
+      isSignedIn &&
+      user?.primaryEmailAddress?.emailAddress === ADMIN_EMAIL
+    ) {
       navigate("/admin");
     }
-  }, [navigate]);
+  }, [isLoaded, isSignedIn, user, navigate]);
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="app-container">

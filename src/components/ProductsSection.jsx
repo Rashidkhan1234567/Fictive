@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { collection, query,  getDocs } from "firebase/firestore";
+import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "../context/CartContext";
@@ -22,7 +22,7 @@ const LoadingSkeleton = () => (
   </div>
 );
 
-const ProductsSection = () => {
+export default function ProductsSection() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
@@ -73,8 +73,6 @@ const ProductsSection = () => {
     },
   };
 
-  if (loading) return <LoadingSkeleton />;
-
   return (
     <section className="products-section">
       <motion.div
@@ -89,27 +87,32 @@ const ProductsSection = () => {
           Discover our exclusive range of high-quality printing solutions
         </p>
       </motion.div>
-      <div className="products-grid">
-        <motion.div
-          className="grid-container"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {displayedProducts.map((product) => (
-            <motion.div
-              key={product.id}
-              variants={itemVariants}
-              className="product-card-wrapper"
-            >
-              <ProductCard
-                product={product}
-                onAddToCart={() => addToCart(product)}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
+
+      {loading ? (
+        <LoadingSkeleton />
+      ) : (
+        <div className="products-container">
+          <motion.div
+            className="products-grid"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {displayedProducts.map((product) => (
+              <motion.div
+                key={product.id}
+                variants={itemVariants}
+                className="product-card-wrapper"
+              >
+                <ProductCard
+                  product={product}
+                  onAddToCart={() => addToCart(product)}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      )}
 
       {hasMoreProducts && (
         <motion.div
@@ -134,6 +137,4 @@ const ProductsSection = () => {
       )}
     </section>
   );
-};
-
-export default ProductsSection;
+}
