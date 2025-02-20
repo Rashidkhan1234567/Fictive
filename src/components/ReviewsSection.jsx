@@ -96,7 +96,7 @@ export default function ReviewsSection() {
                   <h4 className="reviewer-name">{review.name}</h4>
                   <div className="reviewer-details">
                     <span>{review.role}</span>
-                    <span className="dot">•</span>
+                    &nbsp; &nbsp;
                     <span>{review.date}</span>
                   </div>
                 </div>

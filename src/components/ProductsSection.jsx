@@ -5,6 +5,9 @@ import { db } from "../firebase/firebaseConfig";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import ProductCard from "./ProductCard";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
+import { toast } from "sonner";
 import "../Styles/components/ProductsSection.css";
 
 const LoadingSkeleton = () => (
@@ -26,6 +29,8 @@ export default function ProductsSection() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -47,7 +52,7 @@ export default function ProductsSection() {
     fetchProducts();
   }, []);
 
-  // Show only first 12 products instead of 8
+  // Change from 12 to 10 products
   const displayedProducts = products.slice(0, 12);
   const hasMoreProducts = products.length > 12;
 
@@ -71,6 +76,15 @@ export default function ProductsSection() {
         stiffness: 100,
       },
     },
+  };
+
+  const handleViewMore = (e) => {
+    e.preventDefault();
+    if (!isSignedIn) {
+      toast.error("Please sign in to view more products");
+      return;
+    }
+    navigate("/products");
   };
 
   return (
@@ -111,29 +125,26 @@ export default function ProductsSection() {
               </motion.div>
             ))}
           </motion.div>
-        </div>
-      )}
 
-      {hasMoreProducts && (
-        <motion.div
-          className="more-products"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <motion.a
-            href="/products"
-            className="view-all-btn"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span>View All Products</span>
-            <ChevronRight />
-          </motion.a>
-          <p className="remaining-count">
-            Discover {products.length - 12} more products
-          </p>
-        </motion.div>
+          {hasMoreProducts && (
+            <motion.div
+              className="more-products"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <motion.button
+                className="view-all-btn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleViewMore}
+              >
+                See More Products ({products.length - 12} more)
+                <ChevronRight size={20} />
+              </motion.button>
+            </motion.div>
+          )}
+        </div>
       )}
     </section>
   );

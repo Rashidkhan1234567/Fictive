@@ -8,6 +8,7 @@ import { db } from "../firebase/firebaseConfig";
 import "../Styles/components/ProductCard.css";
 import ErrorModal from "./ErrorModal";
 import { toast } from "sonner"; // or your preferred toast library
+import ProductModal from "./ProductModal"; // Add this import
 
 const ProductCard = ({ product }) => {
   const [showModal, setShowModal] = useState(false);
@@ -238,104 +239,13 @@ const ProductCard = ({ product }) => {
         onClose={() => setShowErrorModal(false)}
         message="You need to sign in before placing an order."
       />
-
-      <AnimatePresence>
-        {showModal && (
-          <motion.div
-            className="modal-backdrop"
-            variants={modalVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            onClick={() => setShowModal(false)}
-          >
-            <motion.div
-              className="productModal"
-              variants={modalContentVariants}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="close-modal"
-                onClick={() => setShowModal(false)}
-                aria-label="Close modal"
-              >
-                <XCircle size={20} />
-              </button>
-
-              <div
-                className={`modal-content ${
-                  theme == "dark" ? "dark-content" : ""
-                }`}
-              >
-                <div className="modal-image-section">
-                  <motion.img
-                    src={product.images[currentImageIndex]}
-                    alt={product.title}
-                    className="main-preview-image"
-                    layoutId={`product-image-${product.id}`}
-                  />
-
-                  {product.images.length > 1 && (
-                    <div className="image-thumbnails">
-                      {product.images.map((img, idx) => (
-                        <motion.img
-                          key={idx}
-                          src={img}
-                          alt={`${product.title} view ${idx + 1}`}
-                          className={`thumbnail ${
-                            currentImageIndex === idx ? "active" : ""
-                          }`}
-                          onClick={() => setCurrentImageIndex(idx)}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="modal-info">
-                  <motion.h2
-                    className="card-title"
-                    layoutId={`title-${product.id}`}
-                  >
-                    {product.title}
-                  </motion.h2>
-                  <p className="modal-description">{product.description}</p>
-                  <motion.div
-                    className="modal-price"
-                    layoutId={`price-${product.id}`}
-                  >
-                    {product.currency} {product.price}
-                  </motion.div>
-
-                  <div className="modal-actions">
-                    <button
-                      className={`order-btn ${
-                        isProcessingOrder ? "processing" : ""
-                      }`}
-                      onClick={handlePlaceOrder}
-                      disabled={isProcessingOrder}
-                    >
-                      {isProcessingOrder ? (
-                        <>
-                          <div className="loading-spinner"></div>
-                          <span>Processing...</span>
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingCart size={18} />
-                          <span>Place Order</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+<div className="fix">
+      <ProductModal
+        product={product}
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        />
+        </div>
     </>
   );
 };
